@@ -1,0 +1,1 @@
+window.NAVI = {"kakaoKey": "", "tmapKey": ""};
