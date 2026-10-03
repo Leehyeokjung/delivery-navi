@@ -162,7 +162,7 @@ if (app === "P") {
       el.className = "card";
       el.innerHTML = `<div class="top"><div class="no">${esc(no)}</div><div><div class="addr">${esc(c.stop.no)}번 배송지</div>`
         + `<div class="meta">${esc(c.stop.meta)}</div></div></div><div class="body">`
-        + c.walks.map(w => `<div class="walk">🚶 <b>${esc(w.no)}번</b> <span class="waddr"></span> <span>${esc(w.meta)}</span></div>`).join("")
+        + c.walks.map(w => `<div class="walk">🚶 <b>${esc(w.no)}번</b> <span class="waddr"></span> <span>${w.meta ? "· " + esc(w.meta) : ""}</span></div>`).join("")
         + '<div class="btns"><a href="#" class="go">🧭 길안내</a><button type="button" class="ok"></button></div></div>';
       main.appendChild(el);
       c.el = el; c.no = no;
