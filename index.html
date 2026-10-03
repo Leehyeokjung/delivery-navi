@@ -113,9 +113,10 @@ if (app === "L") {
   const all = [];
   for (const g of parts.slice(2)) {
     const m = /^(?:([^:,.]{1,6}):)?(.*)$/.exec(g);
+    const glabel = !m[1] ? "" : m[1] === "a" ? "오전" : m[1] === "p" ? "오후" : m[1];
     if (m[1]) {
       const h = document.createElement("h2");
-      h.textContent = m[1] === "a" ? "오전" : m[1] === "p" ? "오후" : m[1];
+      h.textContent = glabel;
       main.appendChild(h);
     }
     const grid = document.createElement("div");
@@ -126,7 +127,7 @@ if (app === "L") {
       if (!f) { ok = false; continue; }
       la += Number(f[3]); ln += Number(f[4]);
       const id = (m[1] || "") + f[1];
-      const stop = { id, no: f[1], walk: !!f[2], la: (la / 1e5).toFixed(5), ln: (ln / 1e5).toFixed(5) };
+      const stop = { id, group: glabel, no: f[1], walk: !!f[2], la: (la / 1e5).toFixed(5), ln: (ln / 1e5).toFixed(5) };
       const b = document.createElement("button");
       b.type = "button";
       b.textContent = f[1];
@@ -143,7 +144,7 @@ if (app === "L") {
     const nx = all.find(s => !done[s.id]);
     for (const s of all) { s.btn.classList.toggle("done", !!done[s.id]); s.btn.classList.toggle("next", s === nx); }
     const bar = $("nextbar");
-    bar.textContent = nx ? `다음: ${nx.no}번 길안내 ▶` : "모두 끝났어요 ✔";
+    bar.textContent = nx ? `다음: ${nx.group ? nx.group + " " : ""}${nx.no}번 길안내 ▶` : "모두 끝났어요 ✔";
     bar.onclick = nx ? () => open(nx) : null;
   };
   // 누른 집은 회색(끝낸 것으로). 잘못 누른 회색 버튼을 다시 누르면 그 집 길안내를 다시 열고 그대로 회색
